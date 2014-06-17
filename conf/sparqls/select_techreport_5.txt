@@ -1,0 +1,36 @@
+#query main-select
+
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX db:      <http://lpis.csd.auth.gr/> 
+PREFIX owl:     <http://www.w3.org/2002/07/owl#> 
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#> 
+PREFIX map:     <http://lpis.csd.auth.gr#> 
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX vocab:   <http://localhost:2020/vocab/resource/> 
+PREFIX dc:      <http://purl.org/dc/elements/1.1/>
+PREFIX dct: 	<http://purl.org/dc/terms/>
+PREFIX bibo: 	<http://purl.org/ontology/bibo/> 
+PREFIX foaf: 	<http://xmlns.com/foaf/0.1/>
+PREFIX cito:	<http://purl.org/net/cito/>
+SELECT distinct
+ ?pid
+	
+WHERE
+{
+ ?publication dc:identifier ?pid;
+	dc:title ?title;
+	dc:date ?year;
+	dc:type ?type.
+	OPTIONAL{
+	?publication bibo:presentedAt ?mediatitle;
+	dct:publisher ?mediapublisher;
+	bibo:editor ?editors;
+	bibo:volume ?volumeInfo;
+	bibo:pages ?pages;
+	cito:globalCountValue ?count;
+	dct:location ?publoc.
+	}
+	FILTER(?type = 'Technical Report') 
+} 
+ORDER BY desc(?year) desc(?pid) 	
+#end

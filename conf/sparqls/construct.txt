@@ -1,0 +1,74 @@
+#query main-construct
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX db:      <http://lpis.csd.auth.gr/> 
+PREFIX owl:     <http://www.w3.org/2002/07/owl#> 
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#> 
+PREFIX map:     <http://lpis.csd.auth.gr#> 
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX vocab:   <http://localhost:2020/vocab/resource/> 
+PREFIX dc:      <http://purl.org/dc/elements/1.1/>
+PREFIX dct: 	<http://purl.org/dc/terms/>
+PREFIX bibo: 	<http://purl.org/ontology/bibo/> 
+PREFIX foaf: 	<http://xmlns.com/foaf/0.1/>
+PREFIX cito:	<http://purl.org/net/cito/>
+CONSTRUCT
+{
+	#desired attributes, can change whenever needed
+	?publication dc:identifier ?pid;
+		dc:title ?title;
+		bibo:presentedAt ?mediatitle;
+		dct:publisher ?mediapublisher;
+		bibo:editor ?editors;
+		bibo:volume ?volumeInfo;
+		bibo:pages ?pages;
+		cito:globalCountValue ?count;
+		dct:location ?publoc;
+		dc:date ?year;
+		dc:type ?type;
+		
+		dct:creator ?author.
+	
+	?author dc:identifier ?auid.
+	?author foaf:familyName ?lastname.
+	?author foaf:givenName ?firstname.
+	
+}
+WHERE
+{
+ 
+	?publication vocab:publications_PublicationTitle ?title;
+		vocab:publications_MediaType ?type; #as a string, not as a code. Allowed values: 1-Joural 2-Conference proceedings,workshop proceedings,symposium proceedings 4-book 3-book chapter 5-technical report
+		vocab:publications_MediaTitle ?mediatitle.
+	#everything enclosed in OPTIONAL may or may not appear in the produced triples.
+	OPTIONAL{
+		?publication vocab:publications_MediaEditors ?editors;
+			vocab:publications_MediaPublisher ?mediapublisher;
+			vocab:publications_MediaVolInfo ?volumeInfo;
+			vocab:publications_PublicationPagesInMedium ?pages;
+			vocab:publications_PublicationLocation ?publoc.
+			
+		#aggregate to find how many times a publication has been referenced
+		{
+	 	SELECT (COUNT(?reference) AS ?count) ?publication
+		WHERE  
+		{
+			?publication vocab:publications_PublicationID ?pid.
+		  	?reference vocab:references_RefPaperID ?pid.
+	   	}GROUP BY ?publication
+	 	}
+	}
+ 	?publication vocab:publications_PublicationYear ?year.
+ 	?rights vocab:rights_PublicationID ?pid.
+ 	?publication vocab:publications_PublicationID ?pid.
+
+	#author related statements
+ 	?rights vocab:rights_AuthorID ?authid.
+ 	?author vocab:authors_AuthorID ?authid;
+		vocab:authors_AuthorName ?firstname;
+		vocab:authors_AuthorSurname ?lastname.
+	BIND(?authid+80000 as ?auid) 
+	#added arbitrarily large number in order to separate between publication and author id.
+	#This does 'comporomise' the quality of the N3/whatever format model-file but it does'nt matter since 
+	#it will not be shown. It is though necessary during retrieval.
+}	
+#end

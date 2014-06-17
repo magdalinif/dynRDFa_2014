@@ -1,0 +1,330 @@
+@prefix map: <file:/C:/Users/toshiba/Desktop/MISC/d2r-server-0.7/pubsmap.ttl#> .
+@prefix db: <> .
+@prefix vocab: <http://localhost:2020/vocab/resource/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix jdbc: <http://d2rq.org/terms/jdbc/> .
+
+############# APPLY CHANGES HERE ################
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "com.mysql.jdbc.Driver";
+	d2rq:jdbcDSN "jdbc:mysql://localhost/pubs";
+	d2rq:username "root";
+	d2rq:password "1234";
+	jdbc:autoReconnect "true";
+	jdbc:zeroDateTimeBehavior "convertToNull";
+	.
+##################################################
+
+# Table authors
+map:authors a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "authors/@@authors.AuthorID@@";
+	d2rq:class vocab:authors;
+	d2rq:classDefinitionLabel "authors";
+	.
+map:authors__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:authors;
+	d2rq:property rdfs:label;
+	d2rq:pattern "authors #@@authors.AuthorID@@";
+	.
+map:authors_AuthorID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:authors;
+	d2rq:property vocab:authors_AuthorID;
+	d2rq:propertyDefinitionLabel "authors AuthorID";
+	d2rq:column "authors.AuthorID";
+	d2rq:datatype xsd:int;
+	.
+map:authors_AuthorName a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:authors;
+	d2rq:property vocab:authors_AuthorName;
+	d2rq:propertyDefinitionLabel "authors AuthorName";
+	d2rq:column "authors.AuthorName";
+	.
+map:authors_AuthorMidleName a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:authors;
+	d2rq:property vocab:authors_AuthorMidleName;
+	d2rq:propertyDefinitionLabel "authors AuthorMidleName";
+	d2rq:column "authors.AuthorMidleName";
+	.
+map:authors_AuthorSurname a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:authors;
+	d2rq:property vocab:authors_AuthorSurname;
+	d2rq:propertyDefinitionLabel "authors AuthorSurname";
+	d2rq:column "authors.AuthorSurname";
+	.
+map:authors_AuthorURL a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:authors;
+	d2rq:property vocab:authors_AuthorURL;
+	d2rq:propertyDefinitionLabel "authors AuthorURL";
+	d2rq:column "authors.AuthorURL";
+	.
+map:authors_AuthorEmail a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:authors;
+	d2rq:property vocab:authors_AuthorEmail;
+	d2rq:propertyDefinitionLabel "authors AuthorEmail";
+	d2rq:column "authors.AuthorEmail";
+	.
+map:authors_CSD-DEP a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:authors;
+	d2rq:property vocab:authors_CSD-DEP;
+	d2rq:propertyDefinitionLabel "authors CSD-DEP";
+	d2rq:column "authors.CSD-DEP";
+	d2rq:datatype xsd:boolean;
+	.
+
+# Table keywords
+map:keywords a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "keywords/@@keywords.Keyword|urlify@@/@@keywords.PublicationID@@";
+	d2rq:class vocab:keywords;
+	d2rq:classDefinitionLabel "keywords";
+	.
+map:keywords__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:keywords;
+	d2rq:property rdfs:label;
+	d2rq:pattern "keywords #@@keywords.Keyword@@/@@keywords.PublicationID@@";
+	.
+map:keywords_PublicationID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:keywords;
+	d2rq:property vocab:keywords_PublicationID;
+	d2rq:propertyDefinitionLabel "keywords PublicationID";
+	d2rq:column "keywords.PublicationID";
+	d2rq:datatype xsd:int;
+	.
+map:keywords_Keyword a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:keywords;
+	d2rq:property vocab:keywords_Keyword;
+	d2rq:propertyDefinitionLabel "keywords Keyword";
+	d2rq:column "keywords.Keyword";
+	.
+map:keywords_KeywordOrder a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:keywords;
+	d2rq:property vocab:keywords_KeywordOrder;
+	d2rq:propertyDefinitionLabel "keywords KeywordOrder";
+	d2rq:column "keywords.KeywordOrder";
+	d2rq:datatype xsd:byte;
+	.
+
+# Table publications
+map:publications a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "publications/@@publications.PublicationID@@";
+	d2rq:class vocab:publications;
+	d2rq:classDefinitionLabel "publications";
+	.
+map:publications__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property rdfs:label;
+	d2rq:pattern "publications #@@publications.PublicationID@@";
+	.
+map:publications_PublicationID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationID;
+	d2rq:propertyDefinitionLabel "publications PublicationID";
+	d2rq:column "publications.PublicationID";
+	d2rq:datatype xsd:int;
+	.
+map:publications_PublicationTitle a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationTitle;
+	d2rq:propertyDefinitionLabel "publications PublicationTitle";
+	d2rq:column "publications.PublicationTitle";
+	.
+map:publications_MediaType a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_MediaType;
+	d2rq:propertyDefinitionLabel "publications MediaType";
+	d2rq:column "publications.MediaType";
+	.
+map:publications_PublicationType a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationType;
+	d2rq:propertyDefinitionLabel "publications PublicationType";
+	d2rq:column "publications.PublicationType";
+	d2rq:datatype xsd:byte;
+	.
+map:publications_MediaTitle a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_MediaTitle;
+	d2rq:propertyDefinitionLabel "publications MediaTitle";
+	d2rq:column "publications.MediaTitle";
+	.
+map:publications_MediaPublisher a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_MediaPublisher;
+	d2rq:propertyDefinitionLabel "publications MediaPublisher";
+	d2rq:column "publications.MediaPublisher";
+	.
+map:publications_MediaEditors a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_MediaEditors;
+	d2rq:propertyDefinitionLabel "publications MediaEditors";
+	d2rq:column "publications.MediaEditors";
+	.
+map:publications_MediaVolInfo a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_MediaVolInfo;
+	d2rq:propertyDefinitionLabel "publications MediaVolInfo";
+	d2rq:column "publications.MediaVolInfo";
+	.
+map:publications_PublicationYear a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationYear;
+	d2rq:propertyDefinitionLabel "publications PublicationYear";
+	d2rq:column "publications.PublicationYear";
+	d2rq:datatype xsd:int;
+	.
+map:publications_PublicationNoOfPages a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationNoOfPages;
+	d2rq:propertyDefinitionLabel "publications PublicationNoOfPages";
+	d2rq:column "publications.PublicationNoOfPages";
+	d2rq:datatype xsd:int;
+	.
+map:publications_PublicationPagesInMedium a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationPagesInMedium;
+	d2rq:propertyDefinitionLabel "publications PublicationPagesInMedium";
+	d2rq:column "publications.PublicationPagesInMedium";
+	.
+map:publications_PublicationAbstract a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationAbstract;
+	d2rq:propertyDefinitionLabel "publications PublicationAbstract";
+	d2rq:column "publications.PublicationAbstract";
+	.
+map:publications_PublicationFileName a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationFileName;
+	d2rq:propertyDefinitionLabel "publications PublicationFileName";
+	d2rq:column "publications.PublicationFileName";
+	.
+map:publications_PublicationComments a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationComments;
+	d2rq:propertyDefinitionLabel "publications PublicationComments";
+	d2rq:column "publications.PublicationComments";
+	.
+map:publications_PublicationRelatedURL a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationRelatedURL;
+	d2rq:propertyDefinitionLabel "publications PublicationRelatedURL";
+	d2rq:column "publications.PublicationRelatedURL";
+	.
+map:publications_PublicationRelatedURLText a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationRelatedURLText;
+	d2rq:propertyDefinitionLabel "publications PublicationRelatedURLText";
+	d2rq:column "publications.PublicationRelatedURLText";
+	.
+map:publications_PublicationLocation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationLocation;
+	d2rq:propertyDefinitionLabel "publications PublicationLocation";
+	d2rq:column "publications.PublicationLocation";
+	.
+map:publications_PublicationPubURL a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublicationPubURL;
+	d2rq:propertyDefinitionLabel "publications PublicationPubURL";
+	d2rq:column "publications.PublicationPubURL";
+	.
+map:publications_DisplayOnMLKD a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_DisplayOnMLKD;
+	d2rq:propertyDefinitionLabel "publications DisplayOnMLKD";
+	d2rq:column "publications.DisplayOnMLKD";
+	d2rq:datatype xsd:boolean;
+	.
+map:publications_DisplayOnISKP a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_DisplayOnISKP;
+	d2rq:propertyDefinitionLabel "publications DisplayOnISKP";
+	d2rq:column "publications.DisplayOnISKP";
+	d2rq:datatype xsd:boolean;
+	.
+map:publications_PublishOnWeb a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:publications;
+	d2rq:property vocab:publications_PublishOnWeb;
+	d2rq:propertyDefinitionLabel "publications PublishOnWeb";
+	d2rq:column "publications.PublishOnWeb";
+	d2rq:datatype xsd:boolean;
+	.
+
+# Table references
+map:references a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "references/@@references.RefID@@";
+	d2rq:class vocab:references;
+	d2rq:classDefinitionLabel "references";
+	.
+map:references__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:references;
+	d2rq:property rdfs:label;
+	d2rq:pattern "references #@@references.RefID@@";
+	.
+map:references_RefID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:references;
+	d2rq:property vocab:references_RefID;
+	d2rq:propertyDefinitionLabel "references RefID";
+	d2rq:column "references.RefID";
+	d2rq:datatype xsd:int;
+	.
+map:references_RefPaperID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:references;
+	d2rq:property vocab:references_RefPaperID;
+	d2rq:propertyDefinitionLabel "references RefPaperID";
+	d2rq:column "references.RefPaperID";
+	d2rq:datatype xsd:int;
+	.
+map:references_RefDetails a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:references;
+	d2rq:property vocab:references_RefDetails;
+	d2rq:propertyDefinitionLabel "references RefDetails";
+	d2rq:column "references.RefDetails";
+	.
+map:references_RefYear a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:references;
+	d2rq:property vocab:references_RefYear;
+	d2rq:propertyDefinitionLabel "references RefYear";
+	d2rq:column "references.RefYear";
+	d2rq:datatype xsd:int;
+	.
+
+# Table rights
+map:rights a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "rights/@@rights.AuthorID@@/@@rights.PublicationID@@";
+	d2rq:class vocab:rights;
+	d2rq:classDefinitionLabel "rights";
+	.
+map:rights__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:rights;
+	d2rq:property rdfs:label;
+	d2rq:pattern "rights #@@rights.AuthorID@@/@@rights.PublicationID@@";
+	.
+map:rights_PublicationID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:rights;
+	d2rq:property vocab:rights_PublicationID;
+	d2rq:propertyDefinitionLabel "rights PublicationID";
+	d2rq:column "rights.PublicationID";
+	d2rq:datatype xsd:int;
+	.
+map:rights_AuthorID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:rights;
+	d2rq:property vocab:rights_AuthorID;
+	d2rq:propertyDefinitionLabel "rights AuthorID";
+	d2rq:column "rights.AuthorID";
+	d2rq:datatype xsd:int;
+	.
+map:rights_AuthorOrder a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:rights;
+	d2rq:property vocab:rights_AuthorOrder;
+	d2rq:propertyDefinitionLabel "rights AuthorOrder";
+	d2rq:column "rights.AuthorOrder";
+	d2rq:datatype xsd:byte;
+	.
+
